@@ -3,14 +3,16 @@ import { useParams } from "react-router-dom";
 import { assets, blog_data, comments_data } from "../assets/assets";
 import Navbar from "../components/Navbar";
 import Moment from "moment";
+import Footer from "../components/Footer";
+import Loader from "../components/Loader";
 
 const Blog = () => {
   const { id } = useParams();
 
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
-  const [name, setName] = useState('');
-  const [content, setContent] = useState('');
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
 
   const fetchBlogData = async () => {
     const data = blog_data.find((item) => item._id === id);
@@ -21,9 +23,9 @@ const Blog = () => {
     setComments(comments_data);
   };
 
-  const addComment = async(e) => {
-  e.preventDefault();
-  }
+  const addComment = async (e) => {
+    e.preventDefault();
+  };
 
   useEffect(() => {
     fetchBlogData();
@@ -56,7 +58,7 @@ const Blog = () => {
 
         <div
           dangerouslySetInnerHTML={{ __html: data.description }}
-          className="rich-text max-w-3xl max-auto"
+          className="rich-text max-w-3xl mx-auto"
         ></div>
 
         {/* Comments section */}
@@ -90,27 +92,48 @@ const Blog = () => {
             onSubmit={addComment}
             className="flex flex-col items-start gap-4 max-w-lg"
           >
-            <input onChange={(e)=> setName(e.target.value)} value={name}
+            <input
+              onChange={(e) => setName(e.target.value)}
+              value={name}
               type="text"
               placeholder="Name"
               required
               className="w-full p-2 border border-gray-300 rounded outline-none"
             />
-           <textarea  onChange={(e)=> setContent(e.target.value)} className="w-full p-2 border border-gray-300 rounded outline-none h-48" value={content} required placeholder="Comment"></textarea>
+            <textarea
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded outline-none h-48"
+              value={content}
+              required
+              placeholder="Comment"
+            ></textarea>
 
-           <button type="submit" className="bg-primary text-white rounded p-2 px-8 hover:scale-102 transition-all cursor-pointer">Submit</button>
+            <button
+              type="submit"
+              className="bg-primary text-white rounded p-2 px-8 hover:scale-102 transition-all cursor-pointer"
+            >
+              Submit
+            </button>
           </form>
         </div>
-        
 
-{/* share buttons  */}
+        {/* share buttons  */}
         <div className="my-24 max-w-3xl mx-auto">
-  <p className="font-semibold my-4">Share this article on social Media</p>
+          <p className="font-semibold my-4">
+            Share this article on social Media
+          </p>
+          <div className="flex">
+            <img src={assets.facebook_icon} width={50} alt=""/>
+            <img src={assets.twitter_icon} width={50} alt=""/>
+            <img src={assets.googleplus_icon} width={50} alt=""/>
+          </div>
         </div>
+
       </div>
+        <Footer/>
     </div>
   ) : (
-    <div>Loading...</div>
+    <div><Loader/></div>
   );
 };
 
